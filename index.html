@@ -4,53 +4,18 @@
   <meta charset="utf-8" />
   <title>NC Elections – MVP Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <!-- Leaflet -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""
-  />
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""
-  ></script>
-  <style>
-    :root { --sidebar-w: 340px; }
-    * { box-sizing: border-box; }
-    body, html { margin: 0; height: 100%; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-    .app { display: grid; grid-template-columns: var(--sidebar-w) 1fr; height: 100%; }
-    aside {
-      padding: 16px; overflow: auto; border-right: 1px solid #e5e7eb; background: #fafafa;
-    }
-    aside h1 { font-size: 18px; margin: 0 0 8px; }
-    aside h2 { font-size: 14px; margin: 16px 0 8px; color:#374151; }
-    .muted { color:#6b7280; font-size: 12px; }
-    .layer-row { display:flex; align-items:center; gap:8px; margin:6px 0; }
-    .btn {
-      display:inline-block; padding:6px 10px; border:1px solid #d1d5db; border-radius:8px; background:#fff; cursor:pointer;
-      font-size:12px;
-    }
-    .btn:disabled { opacity:.5; cursor:not-allowed; }
-    #map { height: 100%; }
-    .loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
-    .spinner {
-      width: 32px; height:32px; border:3px solid #ddd; border-top-color:#4f46e5; border-radius:50%; animation:spin 1s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .info {
-      background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:10px; font-size:13px;
-    }
-    .badge { padding:2px 6px; border-radius:999px; background:#eef2ff; border:1px solid #c7d2fe; font-size:11px; }
-    .legend { font-size:12px; line-height:1.4; }
-    @media (max-width: 900px) {
-      :root { --sidebar-w: 100%; }
-      .app { grid-template-columns: 1fr; grid-template-rows: 280px 1fr; }
-      aside { border-right: none; border-bottom: 1px solid #e5e7eb; }
-      #map { min-height: 300px; }
-    }
-  </style>
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="app">
@@ -59,157 +24,70 @@
       <div class="muted">Toggle layers, click a polygon to see details.</div>
 
       <h2>Layers</h2>
-      <div class="layer-row">
-        <input id="lyr-counties" type="checkbox" checked />
-        <label for="lyr-counties">Counties</label>
-        <button class="btn" id="fit-counties">Fit</button>
-      </div>
-      <div class="layer-row">
-        <input id="lyr-precincts" type="checkbox" checked />
-        <label for="lyr-precincts">Precincts</label>
-        <button class="btn" id="fit-precincts">Fit</button>
-      </div>
-      <div class="layer-row">
-        <input id="lyr-house" type="checkbox" />
-        <label for="lyr-house">State House Districts</label>
-        <button class="btn" id="fit-house">Fit</button>
-      </div>
-      <div class="layer-row">
-        <input id="lyr-senate" type="checkbox" />
-        <label for="lyr-senate">State Senate Districts</label>
-        <button class="btn" id="fit-senate">Fit</button>
-      </div>
-      <div class="layer-row">
-        <input id="lyr-congress" type="checkbox" />
-        <label for="lyr-congress">US Congress Districts</label>
-        <button class="btn" id="fit-congress">Fit</button>
+      <div class="section">
+        <div class="layer-row">
+          <div class="row-left">
+            <input id="lyr-counties" type="checkbox" checked />
+            <label for="lyr-counties">Counties</label>
+          </div>
+          <button class="btn" id="fit-counties">Fit</button>
+        </div>
+        <div class="layer-row">
+          <div class="row-left">
+            <input id="lyr-precincts" type="checkbox" checked />
+            <label for="lyr-precincts">Precincts</label>
+          </div>
+          <button class="btn" id="fit-precincts">Fit</button>
+        </div>
+        <div class="layer-row">
+          <div class="row-left">
+            <input id="lyr-house" type="checkbox" />
+            <label for="lyr-house">State House Districts</label>
+          </div>
+          <button class="btn" id="fit-house">Fit</button>
+        </div>
+        <div class="layer-row">
+          <div class="row-left">
+            <input id="lyr-senate" type="checkbox" />
+            <label for="lyr-senate">State Senate Districts</label>
+          </div>
+          <button class="btn" id="fit-senate">Fit</button>
+        </div>
+        <div class="layer-row">
+          <div class="row-left">
+            <input id="lyr-congress" type="checkbox" />
+            <label for="lyr-congress">US Congress Districts</label>
+          </div>
+          <button class="btn" id="fit-congress">Fit</button>
+        </div>
       </div>
 
       <h2>Feature</h2>
-      <div id="feature-panel" class="info">Click on a county / precinct / district.</div>
+      <div class="section">
+        <div id="feature-panel" class="info">Click on a county / precinct / district.</div>
+      </div>
 
       <h2>About</h2>
-      <div class="legend">
-        <div><span class="badge" style="background:#fee2e2;border-color:#fecaca;">Counties</span></div>
-        <div><span class="badge" style="background:#e0f2fe;border-color:#bae6fd;">Precincts</span></div>
-        <div><span class="badge" style="background:#ecfccb;border-color:#d9f99d;">House</span></div>
-        <div><span class="badge" style="background:#fef9c3;border-color:#fde68a;">Senate</span></div>
-        <div><span class="badge" style="background:#f3e8ff;border-color:#e9d5ff;">Congress</span></div>
+      <div class="section">
+        <div class="legend">
+          <div><span class="badge" style="background:#fee2e2;border-color:#fecaca;">Counties</span></div>
+          <div><span class="badge" style="background:#e0f2fe;border-color:#bae6fd;">Precincts</span></div>
+          <div><span class="badge" style="background:#ecfccb;border-color:#d9f99d;">House</span></div>
+          <div><span class="badge" style="background:#fef9c3;border-color:#fde68a;">Senate</span></div>
+          <div><span class="badge" style="background:#f3e8ff;border-color:#e9d5ff;">Congress</span></div>
+        </div>
+        <p class="muted">Basemap © OpenStreetMap contributors.</p>
       </div>
-      <p class="muted">Basemap © OpenStreetMap contributors.</p>
     </aside>
 
     <div id="map">
-      <div id="loading" class="loading" style="display:none;"><div class="spinner"></div></div>
+      <div id="loading" class="loading" style="display:none;">
+        <div class="spinner"></div>
+      </div>
     </div>
   </div>
 
-<script>
-  // ---- Map init ----
-  const map = L.map('map', { preferCanvas: true, zoomControl: true }).setView([35.5, -79], 7);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19, attribution: '&copy; OpenStreetMap'
-  }).addTo(map);
-
-  const URLs = {
-    counties:  "https://raw.githubusercontent.com/hayatkhan20/Election-NC/main/counties_min.geojson",
-    precincts: "https://raw.githubusercontent.com/hayatkhan20/Election-NC/main/precincts_min.geojson",
-    house:     "https://raw.githubusercontent.com/hayatkhan20/Election-NC/main/state_house_min.geojson",
-    senate:    "https://raw.githubusercontent.com/hayatkhan20/Election-NC/main/state_senate_min.geojson",
-    congress:  "https://raw.githubusercontent.com/hayatkhan20/Election-NC/main/us_congress_min.geojson",
-  };
-
-  // Styles
-  const styles = {
-    counties:  { color:"#ef4444", weight:1, fillOpacity:0.05 },
-    precincts: { color:"#0284c7", weight:0.6, fillOpacity:0.04 },
-    house:     { color:"#65a30d", weight:1, dashArray:"4 3", fillOpacity:0.03 },
-    senate:    { color:"#ca8a04", weight:1, dashArray:"4 3", fillOpacity:0.03 },
-    congress:  { color:"#7c3aed", weight:1, dashArray:"4 3", fillOpacity:0.03 },
-    hover:     { weight:2, fillOpacity:0.10 }
-  };
-
-  const featurePanel = document.getElementById('feature-panel');
-  const loadingEl = document.getElementById('loading');
-
-  function htmlEscape(s){ return String(s ?? '').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m] )); }
-
-  function featureHTML(kind, props) {
-    // Normalize props per layer schema we created
-    if (kind === 'counties') {
-      return `<b>County:</b> ${htmlEscape(props.name)}<br/><b>ID:</b> ${htmlEscape(props.county_id)}`;
-    }
-    if (kind === 'precincts') {
-      return `<b>Precinct:</b> ${htmlEscape(props.name || props.enr_desc)}<br/>
-              <b>ID:</b> ${htmlEscape(props.prec_id)}<br/>
-              <b>County:</b> ${htmlEscape(props.county_name)} (${htmlEscape(props.county_id)})`;
-    }
-    // districts (house/senate/congress)
-    return `<b>${kind.replace(/^\w/, c => c.toUpperCase())} District:</b> ${htmlEscape(props.name || props.district)}`;
-  }
-
-  function makeLayer(kind, data) {
-    const layer = L.geoJSON(data, {
-      style: styles[kind],
-      onEachFeature: (feat, lyr) => {
-        // Hover highlight
-        lyr.on('mouseover', () => lyr.setStyle(styles.hover));
-        lyr.on('mouseout',  () => layer.resetStyle(lyr));
-        // Click popup + sidebar info
-        lyr.on('click', () => {
-          const html = featureHTML(kind, feat.properties);
-          lyr.bindPopup(html, { maxWidth: 320 }).openPopup();
-          featurePanel.innerHTML = html;
-        });
-      }
-    });
-    return layer;
-  }
-
-  const layers = {};
-  const fitFns = {};
-
-  async function loadLayer(kind) {
-    loadingEl.style.display = 'flex';
-    const res = await fetch(URLs[kind]);
-    const gj = await res.json();
-    if (layers[kind]) { map.removeLayer(layers[kind]); }
-    layers[kind] = makeLayer(kind, gj);
-    map.addLayer(layers[kind]);
-    fitFns[kind] = () => map.fitBounds(layers[kind].getBounds(), { padding:[20,20] });
-    loadingEl.style.display = 'none';
-  }
-
-  // Load base two layers by default
-  loadLayer('counties').then(()=>fitFns['counties'] && fitFns['counties']());
-  loadLayer('precincts');
-
-  // Sidebar toggles
-  const binds = [
-    ['lyr-counties','counties','fit-counties'],
-    ['lyr-precincts','precincts','fit-precincts'],
-    ['lyr-house','house','fit-house'],
-    ['lyr-senate','senate','fit-senate'],
-    ['lyr-congress','congress','fit-congress'],
-  ];
-
-  binds.forEach(([chkId, kind, fitId]) => {
-    const chk = document.getElementById(chkId);
-    const fit = document.getElementById(fitId);
-
-    chk.addEventListener('change', async () => {
-      if (chk.checked) {
-        if (!layers[kind]) await loadLayer(kind);
-        else map.addLayer(layers[kind]);
-      } else if (layers[kind]) {
-        map.removeLayer(layers[kind]);
-      }
-    });
-
-    fit.addEventListener('click', () => {
-      if (layers[kind]) fitFns[kind]();
-    });
-  });
-</script>
+  <!-- App JS -->
+  <script defer src="app.js"></script>
 </body>
 </html>
